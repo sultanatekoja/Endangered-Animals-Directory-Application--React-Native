@@ -1,5 +1,5 @@
 import "react-native-gesture-handler";
-import React, { useState, useEffect, memo } from "react";
+import React, { useState, useCallback, memo } from "react";
 
 import {
   FlatList,
@@ -8,43 +8,22 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import Icon from "react-native-vector-icons/AntDesign";
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import Icon from "@expo/vector-icons/AntDesign";
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import { useFocusEffect } from "@react-navigation/native";
+import { getPosts } from "../storage/posts";
 
 const PostComponent = ({ navigation }) => {
-  //Get Data from Api
+  const [data, setData] = useState([]);
 
-  //const getData = async () => {
-  //  const resp = await fetch(
-  //   "https://getpantry.cloud/apiv1/pantry/3c736377-114e-4b1c-9971-ac728ee587c4/basket/blog"
-  // )
-  //   .then((response) => response.json())
-  //    .catch((err) => {
-  //    console.error(err);
-  //    });
-  // console.log(resp);
-  // };
-
-  const [data, setData] = useState(null);
-  const getData = async () => {
-    const resp = await fetch(
-      "https://getpantry.cloud/apiv1/pantry/3c736377-114e-4b1c-9971-ac728ee587c4/basket/blog"
-    )
-      .then((response) => response.json())
-      .catch((err) => {
-        console.error(err);
-      });
-    const newData = resp.currentPostsList;
-    setData(newData);
-    console.log(data);
-  };
-  useEffect(() => {
-    let abortController = new AbortController();
-    getData();
-    return () => {
-      abortController.abort();
-    };
-  }, []);
+  // Reload whenever the Forum tab comes back into view, so new posts show up.
+  useFocusEffect(
+    useCallback(() => {
+      getPosts()
+        .then(setData)
+        .catch((err) => console.error(err));
+    }, [])
+  );
 
   const renderItem = ({ item }) => {
     return (
@@ -72,6 +51,9 @@ const PostComponent = ({ navigation }) => {
       data={data}
       renderItem={renderItem}
       keyExtractor={(item) => item.id}
+      ListEmptyComponent={
+        <Text style={styles.empty}>No posts yet. Tap "Add Posts" to write one.</Text>
+      }
       initialNumToRender={10}
       maxToRenderPerBatch={2}
       style={{
@@ -122,6 +104,11 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     fontWeight: "400",
     color: "#F1420B",
+  },
+  empty: {
+    marginTop: 40,
+    textAlign: "center",
+    color: "#a3a3a3",
   },
   shadowProp: {
     shadowColor: "#333333",

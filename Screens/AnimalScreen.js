@@ -1,7 +1,8 @@
 import "react-native-gesture-handler";
 import React from "react";
 import AnimalComponent from "../Components/AnimalComponent";
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const AnimalScreen = ({ navigation }) => {
   return (

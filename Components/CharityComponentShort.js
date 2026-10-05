@@ -9,16 +9,16 @@ import {
   Image,
   View,
 } from "react-native";
-import Icon from "react-native-vector-icons/AntDesign";
+import Icon from "@expo/vector-icons/AntDesign";
 
 const CharityComponent = ({ navigation }) => {
   const [data, setData] = useState(null);
   const getData = async () => {
     try {
       const resp = await fetch(
-        "https://api.jsonbin.io/b/62711f1d25069545a32cc065"
+        "https://api.jsonbin.io/v3/b/62711f1d25069545a32cc065/latest"
       );
-      const data = await resp.json();
+      const { record: data } = await resp.json();
       setData(data.slice(0, 4));
     } catch (error) {
       console.error(error);

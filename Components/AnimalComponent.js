@@ -10,8 +10,8 @@ import {
   View,
   TextInput,
 } from "react-native";
-import Icon from "react-native-vector-icons/AntDesign";
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import Icon from "@expo/vector-icons/AntDesign";
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 
 const AnimalComponent = ({ navigation }) => {
   const [filterData, setfilterData] = useState(null);
@@ -21,9 +21,9 @@ const AnimalComponent = ({ navigation }) => {
   const getData = async () => {
     try {
       const resp = await fetch(
-        "https://api.jsonbin.io/b/625dfd5ebc312b30ebe90a13"
+        "https://api.jsonbin.io/v3/b/625dfd5ebc312b30ebe90a13/latest"
       );
-      const data = await resp.json();
+      const { record: data } = await resp.json();
       setData(data);
       setfilterData(data);
     } catch (error) {
@@ -105,7 +105,7 @@ const AnimalComponent = ({ navigation }) => {
     <View style={styles.container}>
       <View style={{ marginTop: 15, flexDirection: "row" }}>
         <View style={styles.searchContainer}>
-          <Icon name="search1" size={16} color="black" />
+          <Icon name="search" size={16} color="black" />
           <TextInput
             placeholder="Search"
             placeholderTextColor="#868585"

@@ -4,7 +4,7 @@ import StackNavigation from "./StackNavigation";
 import StackNavigationB from "./AnimalStack";
 import CharityStack from "./CharityStack";
 import ForumStack from "./ForumStack";
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 const Tabs = createBottomTabNavigator();
 const TabsNavigator = () => {
   return (

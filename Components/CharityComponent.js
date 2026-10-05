@@ -9,7 +9,7 @@ import {
   View,
   TextInput,
 } from "react-native";
-import Icon from "react-native-vector-icons/AntDesign";
+import Icon from "@expo/vector-icons/AntDesign";
 
 const CharityComponent = ({ navigation }) => {
   const [filterData, setfilterData] = useState(null);
@@ -20,9 +20,9 @@ const CharityComponent = ({ navigation }) => {
   const getData = async () => {
     try {
       const resp = await fetch(
-        "https://api.jsonbin.io/b/62711f1d25069545a32cc065/1"
+        "https://api.jsonbin.io/v3/b/62711f1d25069545a32cc065/latest"
       );
-      const data = await resp.json();
+      const { record: data } = await resp.json();
       setData(data);
       setfilterData(data);
     } catch (error) {
@@ -82,7 +82,7 @@ const CharityComponent = ({ navigation }) => {
     <View style={styles.container}>
       <View style={{ marginTop: 15, flexDirection: "row" }}>
         <View style={styles.searchContainer}>
-          <Icon name="search1" size={16} color="black" />
+          <Icon name="search" size={16} color="black" />
           <TextInput
             placeholder="Search"
             placeholderTextColor="#868585"

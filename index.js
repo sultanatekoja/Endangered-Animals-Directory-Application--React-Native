@@ -1,7 +1,4 @@
-const app = require('express')();
-const PORT = 8080;
+import { registerRootComponent } from "expo";
+import App from "./App";
 
-app.listen(
-    PORT,
-    () => console.log('Its alive on http://localhost:${PORT}')
-)
+registerRootComponent(App);

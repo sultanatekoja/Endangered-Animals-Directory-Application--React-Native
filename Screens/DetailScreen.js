@@ -1,14 +1,14 @@
 import React from "react";
 import {
-  SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
   Image,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { ScrollView } from "react-native-virtualized-view";
-import Icon from "react-native-vector-icons/Ionicons";
+import Icon from "@expo/vector-icons/Ionicons";
 
 const DetailScreen = ({ navigation, route }) => {
   const item = route.params;

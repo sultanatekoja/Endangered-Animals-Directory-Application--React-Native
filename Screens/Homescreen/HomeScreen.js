@@ -11,16 +11,16 @@ import {
   View,
   Pressable,
 } from "react-native";
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 
 const HomeScreen = ({ navigation }) => {
   const [data, setData] = useState(null);
   const getData = async () => {
     try {
       const resp = await fetch(
-        "https://api.jsonbin.io/b/625dfd5ebc312b30ebe90a13"
+        "https://api.jsonbin.io/v3/b/625dfd5ebc312b30ebe90a13/latest"
       );
-      const data = await resp.json();
+      const { record: data } = await resp.json();
       setData(data.slice(0, 5));
     } catch (error) {
       console.error(error);

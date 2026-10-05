@@ -2,81 +2,45 @@ import {
   View,
   Text,
   StyleSheet,
-  SafeAreaView,
   TouchableOpacity,
   TextInput,
+  Alert,
 } from "react-native";
-import React, { useState, useEffect } from "react";
-import Icon from "react-native-vector-icons/Ionicons";
+import { SafeAreaView } from "react-native-safe-area-context";
+import React, { useState } from "react";
+import Icon from "@expo/vector-icons/Ionicons";
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
+import { addPost } from "../storage/posts";
 
-const NewPost = ({ navigation, route, submitHandler }) => {
-  const [title, setTitle] = useState({});
-  const [author, setAuthor] = useState({});
-  const [detail, setDetail] = useState({});
-  const [currentPostsList, setCurrentPostsList] = useState([]);
-  let id = uuidv4();
-  let date = new Date();
-  let day = date.getDate();
-  let month = date.getMonth() + 1;
-  let year = date.getFullYear();
-
-  let fullDate = `${day}.${month}.${year}.`;
+const NewPost = ({ navigation }) => {
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
+  const [detail, setDetail] = useState("");
 
   const onSubmit = async () => {
-    let newObj = {
-      id: id,
-      title: title,
-      author: author,
-      detail: detail,
-      created: fullDate,
-    };
-    console.log(newObj);
-    setCurrentPostsList((currentPostsList) => {
-      return [newObj].concat(currentPostsList);
-    });
-    alert("Blog Posted");
-    await postBlog();
-  };
-
-  const postBlog = async () => {
-    const postObj = {
-      currentPostsList,
-    };
-
-    const { error } = await fetch(
-      "https://getpantry.cloud/apiv1/pantry/3c736377-114e-4b1c-9971-ac728ee587c4/basket/blog/",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(postObj),
-      }
-    );
-    if (error) {
-      console.log(error);
+    if (!title.trim() || !detail.trim()) {
+      Alert.alert("Missing details", "Please add a title and some details.");
+      return;
     }
-    console.log("Posted!");
-  };
-
-  const getPosts = async () => {
-    const res = await fetch(
-      "https://getpantry.cloud/apiv1/pantry/3c736377-114e-4b1c-9971-ac728ee587c4/basket/blog/"
-    )
-      .then((response) => response.json())
-      .catch((err) => {
-        console.error(err);
-      });
-
-    return res;
-  };
-
-  useEffect(() => {
-    let abortController = new AbortController();
-    return () => {
-      abortController.abort();
+    const date = new Date();
+    const newPost = {
+      id: uuidv4(),
+      title: title.trim(),
+      author: author.trim() || "Anonymous",
+      detail: detail.trim(),
+      created: `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}.`,
     };
-  }, []);
+    try {
+      await addPost(newPost);
+      Alert.alert("Blog Posted");
+      navigation.goBack();
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Could not save your post", "Please try again.");
+    }
+  };
+
   return (
     <SafeAreaView
       style={{

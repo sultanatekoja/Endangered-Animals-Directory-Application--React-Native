@@ -2,14 +2,14 @@ import {
   View,
   Text,
   StyleSheet,
-  SafeAreaView,
   TouchableOpacity,
   TextInput,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import React from "react";
 import PostComponent from "../Components/PostComponent";
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
-import Icon from "react-native-vector-icons/AntDesign";
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import Icon from "@expo/vector-icons/AntDesign";
 
 const Forum = ({ navigation }) => {
   return (

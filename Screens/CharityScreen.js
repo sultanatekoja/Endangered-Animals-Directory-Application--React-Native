@@ -2,7 +2,6 @@ import "react-native-gesture-handler";
 import React, { useState, useEffect } from "react";
 import CharityComponent from "../Components/CharityComponent";
 import {
-  SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -10,7 +9,8 @@ import {
   View,
   TextInput,
 } from "react-native";
-import Icon from "react-native-vector-icons/AntDesign";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Icon from "@expo/vector-icons/AntDesign";
 
 const CharityScreen = ({ navigation }) => {
   return (
